@@ -19,7 +19,7 @@ namespace EmployeePortal.Controllers
         {
             var employees = await _employeeRepository.GetEmployeesAsync();
             return Ok(employees);
-        }ccccccccccccccccccccccccccccccccccc
+        }
 
         public async Task<ActionResult> AddEmployee(Employee employee)
         {
