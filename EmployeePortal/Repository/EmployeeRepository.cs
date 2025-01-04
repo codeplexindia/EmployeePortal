@@ -4,24 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeePortal.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepository(AppDbContext dbContext)
     {
-        private readonly AppDbContext db;
-
-        public EmployeeRepository(AppDbContext db) 
-        { 
-            this.db = db;
-        }
+        private readonly AppDbContext _dbContext = dbContext;
 
         public async Task<List<Employee>> GetEmployeesAsync()
         {
-            return await db.Employees.ToListAsync();
+            return await _dbContext.Employees.ToListAsync();
         }
 
         public async Task SaveEmployee(Employee employee)
         {
-            await db.Employees.AddAsync(employee);
-            await db.SaveChangesAsync();
+            await _dbContext.Employees.AddAsync(employee);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

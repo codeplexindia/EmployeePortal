@@ -1,6 +1,5 @@
 ﻿using EmployeePortal.Model;
 using EmployeePortal.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeePortal.Controllers
@@ -12,15 +11,17 @@ namespace EmployeePortal.Controllers
         private readonly EmployeeRepository _employeeRepository;
         public EmployeeController(EmployeeRepository employeeRepository)
         {
-                this._employeeRepository = employeeRepository;
+            this._employeeRepository = employeeRepository;
         }
 
-        public async Task<ActionResult> GetEmployees() 
+        [HttpGet]
+        public async Task<ActionResult> GetEmployees()
         {
             var employees = await _employeeRepository.GetEmployeesAsync();
             return Ok(employees);
         }
 
+        [HttpPost]
         public async Task<ActionResult> AddEmployee(Employee employee)
         {
             await _employeeRepository.SaveEmployee(employee);
