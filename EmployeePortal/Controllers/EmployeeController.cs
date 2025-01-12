@@ -6,13 +6,9 @@ namespace EmployeePortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController(EmployeeRepository employeeRepository) : ControllerBase
     {
-        private readonly EmployeeRepository _employeeRepository;
-        public EmployeeController(EmployeeRepository employeeRepository)
-        {
-            this._employeeRepository = employeeRepository;
-        }
+        private readonly EmployeeRepository _employeeRepository = employeeRepository;
 
         [HttpGet]
         public async Task<ActionResult> GetEmployees()
@@ -26,6 +22,20 @@ namespace EmployeePortal.Controllers
         {
             await _employeeRepository.SaveEmployee(employee);
             return Ok(employee);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateEmployee(int id, [FromBody] Employee employee)
+        {
+            var updatedEmployee = await _employeeRepository.UpdateEmployee(id, employee);
+            return Ok(updatedEmployee);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEmployee(int id)
+        {
+            await _employeeRepository.DeleteEmployee(id);
+            return Ok();
         }
     }
 }

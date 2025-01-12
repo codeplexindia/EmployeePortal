@@ -18,5 +18,33 @@ namespace EmployeePortal.Repository
             await _dbContext.Employees.AddAsync(employee);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<Employee> UpdateEmployee(int id, Employee employee)
+        {
+            var existingEmployee = await _dbContext.Employees.FindAsync(id);
+            if(existingEmployee == null)
+            {
+                throw new Exception("Employee not found");
+            }
+            existingEmployee.Name = employee.Name;
+            existingEmployee.Email = employee.Email;
+            existingEmployee.Mobile = employee.Mobile;
+            existingEmployee.Age = employee.Age;
+            existingEmployee.Salary = employee.Salary;
+            existingEmployee.Status = employee.Status;
+            await _dbContext.SaveChangesAsync();
+            return existingEmployee;
+        }
+
+        public async Task DeleteEmployee(int id)
+        {
+            var existingEmployee = await _dbContext.Employees.FindAsync(id);
+            if (existingEmployee == null)
+            {
+                throw new Exception("Employee not found");
+            }
+            _dbContext.Employees.Remove(existingEmployee);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
